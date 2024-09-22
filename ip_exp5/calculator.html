@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<body>
+    <h1> Calculator Using Promises in JavaScript </h1>
+
+    <label for="num1">Number 1:</label>
+    <input type="number" id="num1" required>
+    <br><br>
+    
+    <label for="num2">Number 2:</label>
+    <input type="number" id="num2" required>
+    <br><br>
+
+    <label for="operation">Operation (+, -, *, /):</label>
+    <input type="text" id="operation" required maxlength="1">
+    <br><br>
+
+    <button onclick="performCalculation()">Calculate</button>
+    <h2 id="result">Result: </h2>
+
+    <script>
+  
+  
+    function calculate(num1, num2, operation) {
+      return new Promise((resolve, reject) => {
+        if (typeof num1 !== 'number' || typeof num2 !== 'number') {
+          reject('Invalid input: Both arguments must be numbers.');
+          return;
+        }
+
+        switch (operation) {
+          case '+':
+            resolve(num1 + num2);
+            break;
+          case '-':
+            resolve(num1 - num2);
+            break;
+          case '*':
+            resolve(num1 * num2);
+            break;
+          case '/':
+            if (num2 === 0) {
+              reject('Error: Division by zero.');
+            } else {
+              resolve(num1 / num2);
+            }
+            break;
+          default:
+            reject('Error: Invalid operation. Use +, -, *, or /.');
+        }
+      });
+    }
+
+  
+    function performCalculation() {
+      const num1 = parseFloat(document.getElementById('num1').value);
+      const num2 = parseFloat(document.getElementById('num2').value);
+      const operation = document.getElementById('operation').value;
+
+      calculate(num1, num2, operation)
+        .then(result => {
+          document.getElementById('result').innerText = `Result: ${result}`;
+        })
+        .catch(error => {
+          document.getElementById('result').innerText = `${error}`;
+        });
+    }
+    </script>
+
+</body>
+</html>
